@@ -9,10 +9,19 @@ def price(update, context):
     price = 0
     posns = update.message.text.split(', ')
     for k in posns:
-        if k.lower().find("п") != -1:
+        T = []
+        for i in ['о', 'к', 'р', 'а', 'с']:
+            if i in list(k.lower()):
+                T.append(True)
+            else:
+                T.append(False)
+        if k.lower().find("п") != -1 and all(T):
             i = k.lower().find("п")
-            r = k[i+1::]
-            print(r)
-    for j in val:
-        if r == j:
-            price += p_b[j]
+            k = k[i+1::]
+        for j in val:
+            if j.lower() == k.lower():
+                price += p_b[j]
+    if price == 0:
+        update.message.reply_text("")
+    else:
+        update.message.reply_text(price)
